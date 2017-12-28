@@ -1,4 +1,4 @@
-Chairs
+chairs
 ---
 
 Collection of 3D chairs and tables made for [Study Party project](https://github.com/sahilshahh/StudyParty) in EE 461L.
