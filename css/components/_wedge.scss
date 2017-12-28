@@ -1,0 +1,127 @@
+@import "../mathsass/dist/math";
+
+/* Wedge Box */
+/* args: w,l,h,bW,bL1,bL2,sign,theta,phi1,phi2,hyp,hyp1,hyp2,w1,l1
+   special: must implement the border-type() mixin (defaults to border-bottom). */
+  .w-box {
+    --raise: calc(0.5*var(--h));
+    
+    width:var(--w);
+    height:var(--l);
+    transform-style: preserve-3d;
+    position: absolute;
+    left:0; top:0;
+    user-select: none;
+  }
+  .w-face {
+    position:absolute;
+    transform-style: flat;
+
+    color:white;
+    text-align:center;
+  }
+  .w-s1 {
+    width: var(--w1);
+    height: var(--l1);
+
+    transform: translate3d(-50%,0,var(--h)) translate(calc(0.5*var(--w)),calc(-1*calc(var(--sign)*var(--bL2))));
+    background-color:rgba(50,245,150,.5);
+    font: calc(0.6*var(--l1))/var(--l1) sans-serif;
+  }
+  .w-s2 {
+    box-sizing: border-box;
+    width: var(--width);
+    height: var(--hyp);
+    border: var(--hyp) solid rgba(120,215,20,.5);
+    border-right: var(--bL2) solid transparent;
+    border-left: var(--bL1) solid transparent;
+    transform: translate3d(-50%,-50%,var(--raise)) rotate(-90deg) translate(calc(-50% + var(--offset)),calc(var(--w) - calc(0.5*var(--bW)))) rotateX(calc(-90deg + var(--theta)));
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .w-s3 {
+    width: var(--w1);
+    height: 0;
+    border: var(--hyp1) solid rgba(10,110,205,.5);
+    border-right: var(--bW) solid transparent;
+    border-left: var(--bW) solid transparent;
+    border-top: none;
+    transform: translate3d(-50%,-50%,var(--raise)) translate(calc(0.5*var(--w)), calc(var(--l) + calc(var(--sign)*calc(0.5*var(--bL1))))) rotateX(calc(-90deg + var(--phi1)));
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .w-s4 {
+    box-sizing: border-box;
+    width: var(--width);
+    height: var(--hyp);
+    border: var(--hyp) solid rgba(255,196,128,.5);
+    border-right: var(--bL1) solid transparent;
+    border-left: var(--bL2) solid transparent;
+    transform: translate3d(-50%,-50%,var(--raise)) rotate(90deg) translate(calc(50% - var(--offset)),calc(-0.5*var(--bW))) rotateX(calc(-90deg + var(--theta)));
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .w-s5 {
+    width: var(--w1);
+    height: 0;
+    border: var(--hyp2) solid rgba(255,160,60,.5);
+    border-right: var(--bW) solid transparent;
+    border-left: var(--bW) solid transparent;
+    border-top: none;
+    transform: translate3d(-50%,-50%,var(--raise)) rotate(180deg) translate(calc(-0.5*var(--w)),calc(var(--sign)*calc(0.5*var(--bL2)))) rotateX(calc(-90deg + var(--phi2)));
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .w-s6 {
+    width: var(--w);
+    height: var(--l);
+    transform: rotateY(180deg);
+    background-color:rgba(225,30,130,.5);
+    font: calc(0.6*var(--l))/var(--l) sans-serif;
+  }
+
+/* Special mixin for wedge box */
+@mixin border-type($type: bottom) {
+  .w-s2, .w-s4 {
+    @if ($type == bottom) {
+      border-top: none;
+      --width: calc(var(--bL2) + var(--l1) + var(--bL1));
+      --offset: 0px;
+    } @else { //$type == top
+      border-bottom: none;
+      --width: calc(var(--bL2) + var(--l) + var(--bL1));
+      --offset: var(--bL2);
+    }
+  }
+}
+
+@mixin makeWedge($w,$l,$h,$bW,$bL1,$bL2,$sign,$RES) {
+  --w: $w*$RES;
+  --l: $l*$RES;
+  --h: $h*$RES;
+  --bW: $bW * $RES;
+  --bL1: $bL1 * $RES;
+  --bL2: $bL2 * $RES;
+  --sign: $sign;
+
+  $theta: atan2($bW,$h);
+  $phi1: atan2(-$sign*$bL1,$h);
+  $phi2: atan2(-$sign*$bL2,$h);
+  $hyp: sqrt(pow($h,2) + pow($bW,2));
+  $hyp1: sqrt(pow($h,2) + pow($bL1,2));
+  $hyp2: sqrt(pow($h,2) + pow($bL2,2));
+  $w1: $w - 2*$bW;
+  $l1: $l + $sign*($bL1 + $bL2);
+
+  --theta: $theta + rad;
+  --phi1: $phi1 + rad;
+  --phi2: $phi2 + rad;
+  --hyp: $hyp * $RES;
+  --hyp1: $hyp1 * $RES;
+  --hyp2: $hyp2 * $RES;
+  --w1: $w1 * $RES;
+  --l1: $l1 * $RES;
+
+  /* implement border-type() mixin */
+  @if ($sign == 1) {
+    @include border-type(top);
+  } @else { // $sign == -1
+    @include border-type(bottom);
+  }
+}

@@ -1,0 +1,451 @@
+@import "components/box";
+@import "components/trapezoid";
+@import "components/wedge";
+
+$VW: 100vw;
+$VH: 100vh;
+$nav-font-size: 100vw / 27 * 2;
+$nav-H: 2 * $nav-font-size;
+$map-VW: $VW;
+$map-VH: $VH; // calculate below with calc(px + rem)
+$map-totalWidth: $map-VH;
+$map-totalHeight: $map-VH;
+$map-width: $map-totalWidth * 0.5;
+$map-height: $map-totalHeight * 0.5;
+$map-paddingX: ($map-totalWidth - $map-width)/2;
+$map-paddingY: ($map-totalHeight - $map-height)/2;
+$perspective: $map-VH;
+$perspective-origin: $map-totalWidth/2 $map-totalHeight/2;
+
+$fonts: -apple-system, BlinkMacSystemFont, 
+    "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", 
+    "Fira Sans", "Droid Sans", "Helvetica Neue", 
+    sans-serif;
+
+html, body {margin: 0; padding: 0; font-family: $fonts;}
+.face,.w-s1,.w-s6 {border: .5px solid rgba(0,0,0,.5);box-sizing:border-box;}
+
+.map-viewbox {
+  --map-VW: $map-VW;
+  --map-VH: calc($map-VH - 2*$nav-H);
+  --map-width: $map-width;
+  --map-height: $map-height;
+  --map-paddingX: $map-paddingX;
+  --map-paddingY: $map-paddingY;
+  --map-totalWidth: $map-totalWidth;
+  --map-totalHeight: $map-totalHeight;
+  perspective: $perspective;
+  // perspective-origin: $perspective-origin;
+
+  width: $VW;
+  height: $VH;
+
+  overflow: scroll;
+  background: radial-gradient(ellipse at center, rgba(150,255,255,.8) 0%, rgba(0,0,0,0) 100%), beige;
+  touch-action: manipulation;
+  user-select: none;
+
+ &::-webkit-scrollbar {
+    display:none;
+  }
+}
+
+@keyframes rise-flip-fall {
+  0% {
+    transform: translateZ(0);
+  }
+  50% {
+    transform: translateZ(.25*$perspective) rotateY(90deg);
+  }
+  100% {
+    transform: translateZ(0) rotateY(180deg);
+  }
+}
+@keyframes spin {
+  from {transform:rotate(0turn);}
+  to {transform:rotate(1turn);}
+}
+@keyframes scale {
+  from {transform:scale3d(.75,.75,.75);}
+  to {transform:scale3d(1.25,1.25,1.25);}
+}
+@keyframes translate {
+  from {transform: translate(-100%,-100%);}
+  to {transform: translate(100%,100%);}
+}
+@keyframes tiltX {
+  from {transform:rotateX(-45deg);}
+  to {transform:rotateX(45deg);}
+}
+@keyframes perspective {
+  from {perspective:.25 * $perspective;}
+  to {perspective: 3 * $perspective}
+}
+
+.map-size {
+  transform-origin:0 0; transform-style:preserve-3d;
+  width: var(--map-totalWidth);
+  height: var(--map-totalHeight);
+}
+
+.map-position {
+  transform-style: preserve-3d;
+  position:absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.map-react {
+  transform-style: preserve-3d;
+  transform: rotateX(60deg);
+  transition: all .5s;
+  &:active {
+    transform: rotateX(0deg);
+  }
+}
+
+.map-animate {
+  // border:3px solid black;
+
+  transform-style: preserve-3d;
+  animation: spin 4s infinite linear;
+  animation-play-state: paused;
+  &:hover {
+    animation-play-state: running;
+  }
+}
+
+.map-transform {
+  transform-style: preserve-3d;
+}
+
+.map {
+  // blueprint dimensions:
+  $b_w: 773.305;
+  $b_l: 609.108;
+  $b_gap: 27.862;
+  $b_L: 226.262;
+  $b_R: 13.040;
+  $b_T: 16.336;
+  $b_B: 43.091;
+  $b_width: $b_w - $b_L - $b_R;
+  $b_height: $b_l - $b_T - $b_B;
+  $b_pillar: 6.592;
+  $b_pillar_gap: 63.421;
+  $b_pillar_T: 28.896;
+  $b_pillar_R: 26.368;
+  $b_pad: 31.120;
+
+  $b_Left: 197.087;
+  $b_Middle: 151.284;
+  $b_Right: 185.802;
+  $b_Stairs_l: 36.015;
+  $b_Stairs_w: 41.267;
+  $total: $b_Left + $b_Middle + $b_Right;
+    $b_Left: $b_Left/$total;
+    $b_Middle: $b_Middle/$total;
+    $b_Right: $b_Right/$total;
+    $b_Stairs_l: $b_Stairs_l/$total;
+    $b_Stairs_w: $b_Stairs_w/$total;
+  
+  @debug $total, $b_width; // off by 0.170px
+
+  $RES: $map-width;
+  $SCALE: 1;
+  $W: 1.0;
+  $GAP: $b_gap / ($b_w - $b_L - $b_R);
+  $L: 1.0 + $GAP;
+  $H: .6;
+  $A_h: 1/6 * 1/6;
+  $fenceH: $A_h * 1/2;
+  $D_h: 1/7 * $H;
+  $D_w: $b_pillar/$b_height * $L;
+
+  @at-root {
+    #blueprint {
+      // display: none;
+      width: ($W*$RES) * $b_w/$b_width;
+      height: ($L*$RES) * $b_l/$b_height;
+      position: absolute;
+      top: -($L*$RES) * $b_T / $b_height;
+      left: -($W*$RES) * $b_L / $b_width;
+      opacity: .5;
+      // clip-path: polygon(
+        // (($W*$RES) * $b_L / $b_width) (($L*$RES) * $b_T / $b_height),
+        // (($b_w/$b_width - 1/7)*$W*$RES) (($L*$RES) * $b_T / $b_height),
+        // 50% 0, 50% 50%, 0 50%
+        // ); Just use background size/position... screw the stairs.
+    }
+  }
+
+  --RES: $RES;
+  --SCALE: $SCALE;
+  transform-style: preserve-3d;
+  width: var(--map-width);
+  height: var(--map-height);
+  transform: scale3d(var(--SCALE),var(--SCALE),var(--SCALE));
+
+  &-A {
+    $w: $W;
+    $l: $L;
+    $h: $A_h;
+
+    --w: $w*$RES;
+    --l: $l*$RES;
+    --h: $h*$RES;
+  }
+
+  &-B {
+    $w: $W * 1/7;
+    $l: 0;
+    $h: $w;
+    $bW: 0;
+    $bL1: $A_h;
+    $bL2: 0;
+    $sign: 1;
+    @include makeWedge($w,$l,$h,$bW,$bL1,$bL2,$sign,$RES);
+    $stair_w: $W * $b_Stairs_w;
+    $stair_l: $W * $b_Stairs_l;
+
+    > *:nth-child(1) {
+      transform: translate(($W - $w)*$RES,($L + $h)*$RES) rotateX(90deg);
+    }
+    > *:nth-child(2) {
+      $w2: $stair_w;
+      $h2: $stair_l;
+      @include makeWedge($w2,$l,$h2,$bW,$bL1,$bL2,$sign,$RES);
+      transform: translate(($W - $W*$b_Right - $w2)*$RES,($L + $h2)*$RES) rotateX(90deg);
+    }
+    > *:nth-child(3) {
+      $w3: $stair_w;
+      $h3: $stair_l;
+      @include makeWedge($w3,$l,$h3,$bW,$bL1,$bL2,$sign,$RES);
+      transform: translate(($W*$b_Left)*$RES,($L + $h3)*$RES) rotateX(90deg);
+    }
+    > *:nth-child(4) {
+      transform: translate(($W - $w)*$RES,(-$h)*$RES) rotate(180deg) rotateX(90deg);
+    }
+    > *:nth-child(5) {
+      $w5: 1/7;
+      $h5: .3*$w;
+      @include makeWedge($w5,$l,$h5,$bW,$bL1,$bL2,$sign,$RES);
+      transform-origin: 0 0;
+      transform: translate(($W + $h5)*$RES,($W - $w5)*$RES) rotate(-90deg) rotateX(90deg);
+    }
+    // rails are for children 1, 2, and 3
+    .rail1 {
+      $theta: atan2($bL1,$h);
+      $hyp: sqrt(pow($h,2) + pow($bL1,2));
+      $ratio: sin($theta);
+      --l: $fenceH*$RES;
+      --h: $hyp*$RES;
+      transform-origin: 0 0;
+      transform: translate(($W - $w)*$RES,($L + $h)*$RES) rotateX(($PI/2 - $theta) + rad) matrix3d(1,0,0,0, 0,1,$ratio,0, 0,0,1,0, 0,0,0,1);
+    }
+    .rail2 {
+      $w2: $stair_w;
+      $h2: $stair_l;
+      $theta: atan2($bL1,$h2);
+      $hyp: sqrt(pow($h2,2) + pow($bL1,2));
+      $ratio: sin($theta);
+      --w: $w2 * $RES;
+      --l: $fenceH * $RES;
+      --h: $hyp * $RES;
+      transform-origin: 0 0;
+      transform: translate(($W - $W*$b_Right - $w2)*$RES,($L + $h2)*$RES) rotateX(($PI/2 - $theta) + rad) matrix3d(1,0,0,0, 0,1,$ratio,0, 0,0,1,0, 0,0,0,1);
+    }
+    .rail3 {
+      $w3: $stair_w;
+      $h3: $stair_l;
+      $theta: atan2($bL1,$h3);
+      $hyp: sqrt(pow($h3,2) + pow($bL1,2));
+      $ratio: sin($theta);
+      --w: $w3 * $RES;
+      --l: $fenceH*$RES;
+      --h: $hyp*$RES;
+      transform-origin: 0 0;
+      transform: translate(($W*$b_Left)*$RES,($L + $h3)*$RES) rotateX(($PI/2 - $theta) + rad) matrix3d(1,0,0,0, 0,1,$ratio,0, 0,0,1,0, 0,0,0,1);
+    }
+    .fence1 {
+      $w1: $b_Right*$W - $w;
+      $h1: $fenceH;
+      --w: $w1*$RES;
+      --h: $h1*$RES;
+      transform: translate3d(($W - $W*$b_Right)*$RES,$L*$RES,$A_h*$RES);
+    }
+    .fence2 {
+      $w2: $stair_w;
+      $ww: $b_Middle*$W - 2*$w2;
+      $h2: $fenceH;
+      --w: $ww*$RES;
+      --h: $h2*$RES;
+      transform: translate3d(($W*$b_Left + $w2)*$RES,$L*$RES,$A_h*$RES);
+    }
+    .fence3 {
+      $w3: $b_Left*$W;
+      $h3: $fenceH;
+      --w: $w3*$RES;
+      --h: $h3*$RES;
+      transform: translate3d(0,$L*$RES,$A_h*$RES);
+    }
+    .fence4 {
+      $w4: $L;
+      $h4: $fenceH;
+      --w: $w4*$RES;
+      --h: $h4*$RES;
+      transform-origin: 100% 0;
+      transform: translate3d(-$L*$RES,0,$A_h*$RES) rotate(-90deg);
+    }
+    .fence5 {
+      $w5: $W - 2/7;
+      $h5: $fenceH;
+      --w: $w5*$RES;
+      --h: $h5*$RES;
+      transform-origin: 0 0;
+      transform: translate3d($W*$RES,0,$A_h*$RES) rotate(90deg);
+    }
+    .fence6 {
+      $w6: $L - ($W - 1/7);
+      $h6: $fenceH;
+      --w: $w6*$RES;
+      --h: $h6*$RES;
+      transform-origin: 0 0;
+      transform: translate3d($W*$RES,($W - 1/7)*$RES,$A_h*$RES) rotate(90deg);
+    }
+  }
+
+  &-C {} /* Not needed after all */
+
+  // $b_pillar: 6.592;
+  // $b_pillar_gap: 63.421;
+  // $b_pillar_T: 28.896;
+  // $b_pillar_R: 26.368;
+  // $b_pad: 31.120;
+
+  &-D {box-sizing:border-box;
+    $w: $D_w;
+    $l: $D_w;
+    $h: $D_h;
+    --w: $w * $RES;
+    --l: $l * $RES;
+    --h: $h * $RES;
+
+    position: absolute;
+    width: $W * $RES;
+    height: $L * $RES;
+    // transform: translateZ($A_h*$RES);
+    transform-style: preserve-3d;
+    top: ($b_pillar_T - $b_T)/$b_width * $W*$RES;
+    right: ($b_pillar_R - $b_R)/$b_width * $W*$RES;
+    display: flex;
+    flex-flow: row-reverse nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+
+    // border:2px solid blue;
+    .D-column {
+      width: ($b_pillar + $b_pillar_gap)/$b_width * $W*$RES;
+      // position:absolute;
+      // top:0; right:0;
+      border:2px solid blue;box-sizing:border-box;
+      // height: $L * $RES;
+      
+      .box {
+        position: relative;
+        left: ($b_pillar + $b_pillar_gap)/$b_width * $W*$RES - $w*$RES;
+        margin-bottom: ($b_pillar_gap)/$b_width * $W*$RES;
+      }
+    }
+  }
+}
+.w-face,.face {
+  overflow: hidden;font-size: 0;
+}
+nav {
+  // border: 2px solid blue;
+
+  position:fixed;
+  left:0;bottom:0;
+  height: 100vh;
+  width: 100vw;
+  display:flex;
+  flex-flow:column nowrap;
+  justify-content:space-between;
+  align-items:center;
+  pointer-events:none;
+  user-select:none;
+}
+
+header {
+  background-color: rgba(255,170,0,.5);
+  box-shadow: 0 0vh .6vh .3vh rgba(0,0,0,0.43),
+              0 .1vh .5vh .2vh rgba(255,60,120,0.5);
+  padding:$nav-font-size/3;
+  width:100%;
+  
+  border-top-left-radius:0;
+  border-top-right-radius:0;
+  text-align: center;
+  font: bolder #{$nav-font-size} / #{6/7*$nav-H} $fonts;
+
+  line-height:6/7*$nav-H;
+  height:6/7*$nav-H;
+  pointer-events:initial;
+}
+
+.menu {
+  position:absolute;
+  left:-$nav-font-size/3;
+  top: $nav-font-size/3;
+  width:$nav-H;
+  height:5/6*$nav-H;
+
+  background-color: rgba(255,255,255,1);
+  box-shadow: 0 .1vh .6vh .3vh rgba(0,0,0,0.43);
+  opacity:.7;
+  border-radius:50%;
+  border-top-left-radius:0;
+  border-bottom-left-radius:0;
+}
+
+footer,header,.menu, {
+    // transition: all .5s;
+}
+
+.menu::after {
+  content: '';
+  border-top: 12/60*$nav-H double rgba(0,0,0,.8);
+  border-bottom: 4/60*$nav-H solid rgba(0,0,0,.8);
+  position: absolute;
+  left: 1.8/6*$nav-H;
+  top: 15/60*$nav-H;
+  width: 2.3/6*$nav-H;
+  height: 4/60*$nav-H;
+}
+
+.capture {
+  flex: 1 0 auto;
+  border:2px solid green;
+  width: $VW;
+  display: none;
+}
+
+footer {
+  background-color: rgba(0,0,0,.3);
+  color:rgba(255,255,255,1);
+  box-shadow: inset 0 0.6vh 2.4vh 1.2vh rgba(255,255,255,.1);
+
+  border-radius:50%;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+  border: .3vh solid rgba(0,0,0,.2);
+  border-bottom: none;
+  // margin-bottom:-$nav-font-size/3;
+  height: 6/7*$nav-H;
+  text-align:center;
+  font: #{7/8*$nav-font-size} / #{7/8*$nav-H} $fonts;
+  width:100%;
+  pointer-events:initial;
+/*   transform:rotate(-90deg); */
+}

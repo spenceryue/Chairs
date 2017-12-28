@@ -1,0 +1,42 @@
+/* High Table */
+.hightable {
+  & {
+    $RES: 80px;
+    $SCALE: 3;
+    --RES: $RES;
+    --SCALE: $SCALE;
+    --W: calc(1.0*var(--RES));
+    --L: calc(0.5*var(--RES));
+    --H: calc(0.625*var(--RES));
+    --T: calc(0.06*var(--RES));
+    --U: calc(0.15625*var(--RES));
+  }
+
+  &-R {
+    --w: var(--T);
+    --l: var(--L);
+    --h: var(--H);
+    transform: translate(calc(var(--W) - var(--T)),0);
+  }
+
+  &-L {
+    --w: var(--T);
+    --l: var(--L);
+    --h: var(--H);
+    transform: scale(-1,1);
+  }
+
+  &-T {
+    --w: calc(var(--W) - calc(2*var(--T)));
+    --l: var(--L);
+    --h: var(--T);
+    transform: translate3d(var(--T),0,calc(var(--H) - var(--T)));
+  }
+
+  &-U {
+    --w: calc(var(--W) - calc(2*var(--T)));
+    --l: var(--T);
+    --h: var(--U);
+    transform: translate(0,-50%) translate3d(var(--T),calc(0.5*var(--L)),calc(var(--H) - calc(var(--U) + var(--T))));
+  }
+}

@@ -1,0 +1,62 @@
+/* Box */
+/* args: w,l,h */
+  .box {
+    --raise: calc(0.5*var(--h));
+
+    width:var(--w);
+    height:var(--l);
+    transform-style: preserve-3d;
+    position: absolute;
+    left:0; top:0;
+    user-select: none;
+  }
+  .face {
+    position:absolute;
+    transform-style: flat;
+    overflow:hidden;
+
+    color:white;
+    text-align:center;
+  }
+  .s1 {
+    width: var(--w);
+    height: var(--l);
+    transform: translateZ(var(--h));
+    background-color:rgba(10,110,205,.5);
+    font: calc(0.6*var(--l))/var(--l) sans-serif;
+  }
+  .s2 {
+    width: var(--l);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) rotateY(90deg) translate3d(calc(-0.5*var(--l)),0,var(--w));
+    background-color:rgba(120,215,20,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .s3 {
+    width: var(--w);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) translate3d(calc(0.5*var(--w)),0,var(--l));
+    background-color:rgba(225,30,130,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .s4 {
+    width: var(--l);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) rotateY(-90deg) translate3d(calc(0.5*var(--l)),0,0);
+    background-color:rgba(255,196,128,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .s5 {
+    width: var(--w);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) rotateY(180deg) translate3d(calc(-0.5*var(--w)),0,0);
+    background-color:rgba(50,245,150,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .s6 {
+    width: var(--w);
+    height: var(--l);
+    transform: rotateY(180deg);
+    background-color:rgba(255,160,60,.5);
+    font: calc(0.6*var(--l))/var(--l) sans-serif;
+  }

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>high table</title>
+  <link rel="stylesheet" type="text/css" href="../css/furniture-styles.css">
+</head>
+<body>
+  <div class='playground'>
+    <div class='hightable padder'>
+      <div class="spinner">
+        <div class='furniture centerMe'>
+          <div class='box hightable-L'>
+            <div class='face s1'>1</div>
+            <div class='face s2'>2</div>
+            <div class='face s3'>3</div>
+            <div class='face s4'>4</div>
+            <div class='face s5'>5</div>
+            <div class='face s6'>6</div>
+          </div>
+          <div class='box hightable-R'>
+            <div class='face s1'>1</div>
+            <div class='face s2'>2</div>
+            <div class='face s3'>3</div>
+            <div class='face s4'>4</div>
+            <div class='face s5'>5</div>
+            <div class='face s6'>6</div>
+          </div>
+          <div class='box hightable-T'>
+            <div class='face s1'>1</div>
+            <div class='face s2'>2</div>
+            <div class='face s3'>3</div>
+            <div class='face s4'>4</div>
+            <div class='face s5'>5</div>
+            <div class='face s6'>6</div>
+          </div>
+          <div class='box hightable-U'>
+            <div class='face s1'>1</div>
+            <div class='face s2'>2</div>
+            <div class='face s3'>3</div>
+            <div class='face s4'>4</div>
+            <div class='face s5'>5</div>
+            <div class='face s6'>6</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h1 style="position:fixed;bottom:10px;margin:0 auto;font-size:1.7em;font-family:sans-serif; color:rgba(255,255,255,.5)">Click, hover, scroll to change perspective</h1>
+
+  <script>
+    var pg= document.querySelector('.playground');
+    pg.scrollTop= (pg.scrollHeight-pg.clientHeight)/2-pg.clientHeight/6;
+    pg.scrollLeft= (pg.scrollWidth-pg.clientWidth)/2;
+  </script>
+
+</body>
+</html>

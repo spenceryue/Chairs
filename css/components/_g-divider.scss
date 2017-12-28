@@ -1,0 +1,30 @@
+/* Glass Divider */
+.g-divider {
+  & {
+    $RES: 80px;
+    $SCALE: 3;
+    --RES: $RES;
+    --SCALE: $SCALE;
+    --W: calc(1.0*var(--RES));
+    --L: calc(0.1*var(--RES));
+    --H: calc(0.7*var(--RES));
+    --bH: calc(1.5*var(--L));
+    --P: calc(0.05*var(--RES));
+    --T: calc(0.005*var(--RES));
+  }
+
+  &-B {
+    --w: var(--W);
+    --l: var(--L);
+    --h: var(--bH);
+    --raise: calc(0.5*var(--h));
+  }
+
+  &-G {
+    --w: calc(var(--W) - calc(2*var(--P)));
+    --l: var(--T);
+    --h: calc(var(--H) - var(--bH));
+    --raise: calc(0.5*var(--h));
+    transform: translate3d(-50%,-50%,var(--bH)) translate(calc(0.5*var(--W)),calc(0.5*var(--L)));
+  }
+}

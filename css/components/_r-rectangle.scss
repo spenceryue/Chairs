@@ -1,0 +1,206 @@
+@import "wedge";
+
+/* Round Rectangle Table */
+.r-rectangle {
+  $RES: 80px;
+  $SCALE: 3;
+  $W: 1.0;
+  $L: 0.5;
+  $H: 0.5;
+  $T_bW: 0.05;
+  $T_t: 0.05;
+  $B_t: 0.05;
+  $B_d: 0.5;
+  $L_d: 0.05;
+
+  & {
+    --RES: $RES;
+    --SCALE: $SCALE;
+    --W: $W * $RES;
+    --L: $L * $RES;
+    --H: $H * $RES;
+    --T_bW: $T_bW * $RES;
+    --T_t: $T_t * $RES;
+    --B_t: $B_t * $RES;
+    --B_d: $B_d * $RES;
+    --L_d: $L_d * $RES;
+  }
+
+  &-B {
+    /* shared box dimensions */
+    $w: 0.5 * $B_d;
+    $l: 0;
+    $h: cos(30deg) * ($B_d - $L_d)/2;
+    $bW: ($w - $L_d/2)/2;
+    $bL1: $B_t;
+    $bL2: 0;
+    $sign: 1; // bL1 and bL2 signs must match
+    $theta: atan2($bW,$h); // restriction: bW always "negative" (i.e. angles inwards)
+    $phi1: atan2(-$sign*$bL1,$h);
+    $phi2: atan2(-$sign*$bL2,$h);
+    $hyp: sqrt($bW*$bW + $h*$h);
+    $hyp1: sqrt($bL1*$bL1 + $h*$h);
+    $hyp2: sqrt($bL2*$bL2 + $h*$h);
+    $w1: $w - 2*$bW; // simpler calculation because bW always "negative"
+    $l1: $l + $sign*($bL1 + $bL2);
+
+    /* dimensions passed to each box through CSS inheritance */
+    --w: $w * $RES;
+    --l: $l * $RES;
+    --h: $h * $RES;
+    --bW: $bW * $RES;
+    --bL1: $bL1 * $RES;
+    --bL2: $bL2 * $RES;
+    --sign: $sign;
+    --theta: $theta + rad;
+    --phi1: $phi1 + rad;
+    --phi2: $phi2 + rad;
+    --hyp: $hyp * $RES;
+    --hyp1: $hyp1 * $RES;
+    --hyp2: $hyp2 * $RES;
+    --w1: $w1 * $RES;
+    --l1: $l1 * $RES;
+    
+    /* global positioning */
+    transform-style: preserve-3d;
+    width: $B_d * $RES;
+    height: $B_d * $RES;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+    border-radius: 50%;
+    background-color: rgba(0,0,0,.5);
+
+    /* positioning each box */
+    $R_i: cos(30deg) * $B_d/2;
+    @for $i from 0 to 6 {
+      > *:nth-child(#{$i + 1}) {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%) rotate($i*60deg) rotateX(90deg) translateZ(-$R_i*$RES);
+      }
+    }
+
+    /* implement border-type() mixin */
+    @if ($sign == 1) {
+      @include border-type(top);
+    } @else { // $sign == -1
+      @include border-type(bottom);
+    }
+
+    .w-s2, .w-s4 {
+      overflow:hidden;
+    }
+  }
+
+  &-L {
+    /* shared box dimensions */
+    $w: $L_d;
+    $l: cos(30deg) * $L_d/2;
+    $h: $H - $T_t;
+    $bW: sin(30deg) * $L_d/2;
+    $hyp: sqrt($bW*$bW + $l*$l);
+    $theta: atan2($bW,$l);
+
+    /* dimensions passed to each box through CSS inheritance */
+    --w: $w * $RES;
+    --l: $l * $RES;
+    --h: $h * $RES;
+    --bW: $bW * $RES;
+    --hyp: $hyp * $RES;
+    --theta: $theta + rad;
+
+    /* global positioning */
+    transform-style: preserve-3d;
+    width: $L_d * $RES;
+    height: $L_d * $RES;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+
+    /* positioning each box */
+    > *:nth-child(1) {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,0) rotate(180deg);
+    }
+    > *:nth-child(2) {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      transform: translate(-50%,0);
+    }
+
+    .t-face {
+      overflow:hidden !important;
+    }
+  }
+
+  &-T {
+    /* shared box dimensions */
+    $h: $T_t;
+    
+    /* shared dimensions passed to each box through CSS inheritance */
+    --h: $h * $RES;
+    
+    /* global positioning */
+    transform-style: preserve-3d;
+    width: $W * $RES;
+    height: $L * $RES;
+    position: relative;
+    transform: translateZ(($H - $T_t)*$RES);
+
+    /* positioning each box */
+    > *:nth-child(1) {
+      $w: $L;
+      $l: $T_bW;
+      $bW: $T_bW;
+      $hyp: sqrt($bW*$bW + $bW*$bW);
+      $theta: atan2($bW,$bW);
+      --w: $w * $RES;
+      --l: $l * $RES;
+      --bW: $bW * $RES;
+      --hyp: $hyp * $RES;
+      --theta: $theta + rad;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translate(-50%,-50%) rotate(-90deg) translate(-0.5*$w * $RES,0.5*$l * $RES);
+    }
+    > *:nth-child(2) {
+      $w: $W - 2*$T_bW;
+      $l: $L;
+      --w: $w * $RES;
+      --l: $l * $RES;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%,-50%);
+    }
+    > *:nth-child(3) {
+      $w: $L;
+      $l: $T_bW;
+      $bW: $T_bW;
+      $hyp: sqrt($bW*$bW + $bW*$bW);
+      $theta: atan2($bW,$bW);
+      --w: $w * $RES;
+      --l: $l * $RES;
+      --bW: $bW * $RES;
+      --hyp: $hyp * $RES;
+      --theta: $theta + rad;
+      position: absolute;
+      left: 0;
+      top: 0;
+      transform: translate(-50%,-50%) rotate(90deg) translate(0.5*$w * $RES,-($W - 0.5*$l) * $RES);
+    }
+
+    .t-face {
+      overflow:hidden !important;
+    }
+  }
+}

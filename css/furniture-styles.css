@@ -1,0 +1,978 @@
+/* Special mixin for wedge box */
+/* Playground */
+/* args: W,L,H */
+.playground {
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.9);
+  border: 2px solid green;
+  box-sizing: border-box;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 0;
+  white-space: nowrap;
+  perspective: calc(2*240px);
+  /* remember to change perspective (distance) when zoom in */
+  transform-style: preserve-3d;
+  overflow: scroll; }
+
+.playground::-webkit-scrollbar {
+  display: none; }
+
+.spinner:hover {
+  animation-play-state: running; }
+
+.spinner {
+  animation: spin 6s infinite linear;
+  animation-play-state: paused;
+  transform-style: preserve-3d;
+  /*border: 2px solid cyan;*/
+  transform-origin: 50% 50% calc(0.5*var(--H)); }
+
+@keyframes spin {
+  from {
+    transform: rotateY(0deg); }
+  to {
+    transform: rotateY(360deg); } }
+.padder {
+  position: relative;
+  padding: 75vh 75vw;
+  box-sizing: content-box;
+  border: 3px solid yellow;
+  background: rgba(255, 255, 255, 0.4);
+  width: var(--W);
+  height: var(--L); }
+
+.centerMe {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /*transform:translate(-50%,-50%);*/ }
+
+/* Furniture */
+/* args: W,L,H,SCALE */
+.furniture {
+  transform-style: preserve-3d;
+  width: var(--W);
+  height: var(--L);
+  border: 10px solid rgba(255, 255, 255, 0.5);
+  box-sizing: content-box;
+  transition: transform 1s;
+  transform: translate(-50%, -50%) rotateX(90deg) scale3d(var(--SCALE), var(--SCALE), var(--SCALE));
+  transform-origin: 50% 50% calc(0.5*var(--H)); }
+
+/* look here for wood filter effect
+    https://www.smashingmagazine.com/2015/05/why-the-svg-filter-is-awesome/
+  */
+.furniture:active {
+  transform: translate(-50%, -50%) rotateX(30deg) scale3d(var(--SCALE), var(--SCALE), var(--SCALE)); }
+
+/* Comfy Chair */
+.comfy-chair {
+  --RES: 80px;
+  --SCALE: 3;
+  --W: 80px;
+  --L: 80px;
+  --H: 24px; }
+.comfy-chair-B {
+  /* shared box dimensions */
+  /* dimensions passed to each box through CSS inheritance */
+  --w: 4px;
+  --l: 4px;
+  --h: 4px;
+  --bW: 0.5px;
+  --bL1: 0.5px;
+  --bL2: 0.5px;
+  --sign: -1;
+  --theta: 0.12435rad;
+  --phi1: 0.12435rad;
+  --phi2: 0.12435rad;
+  --hyp: 4.03113px;
+  --hyp1: 4.03113px;
+  --hyp2: 4.03113px;
+  --w1: 3px;
+  --l1: 3px;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 68px;
+  height: 68px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  /* positioning each box */
+  /* implement border-type() mixin */
+  /* for debugging mode: clip text overflow */ }
+  .comfy-chair-B > *:nth-child(1) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(0deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -7.625, 1, 0, 0, 0, 0, 1) translate(0, -2px); }
+  .comfy-chair-B > *:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(90deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -7.625, 1, 0, 0, 0, 0, 1) translate(0, -2px); }
+  .comfy-chair-B > *:nth-child(3) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(180deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -7.625, 1, 0, 0, 0, 0, 1) translate(0, -2px); }
+  .comfy-chair-B > *:nth-child(4) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(270deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -7.625, 1, 0, 0, 0, 0, 1) translate(0, -2px); }
+  .comfy-chair-B .w-s2, .comfy-chair-B .w-s4 {
+    border-top: none;
+    --width: calc(var(--bL2) + var(--l1) + var(--bL1));
+    --offset: 0px; }
+  .comfy-chair-B .w-face {
+    overflow: hidden !important; }
+.comfy-chair-L {
+  /* shared box dimensions */
+  /* dimensions passed to each box through CSS inheritance */
+  --w: 4px;
+  --l: 1.73205px;
+  --h: 16px;
+  --bW: 1px;
+  --hyp: 2px;
+  --theta: 0.5236rad;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 4px);
+  /* positioning each box */ }
+  .comfy-chair-L > *:nth-child(1) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0) rotate(180deg); }
+  .comfy-chair-L > *:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0); }
+  .comfy-chair-L .t-face {
+    overflow: hidden !important; }
+.comfy-chair-B1 {
+  --w: 80px;
+  --l: 4px;
+  --h: 80px;
+  --bW: 4px;
+  --hyp: 5.65685px;
+  --theta: 0.7854rad;
+  transform-style: preserve-3d;
+  width: 80px;
+  height: 4px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: 50% 50% 40px;
+  transform: translate3d(-50%, -50%, -18px) rotateX(-90deg) rotate(180deg); }
+  .comfy-chair-B1 .t-face {
+    overflow: hidden !important; }
+.comfy-chair-C {
+  /* shared box dimensions */
+  /* shared dimensions passed to each box through CSS inheritance */
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 72.8px;
+  height: 77.28px;
+  position: absolute;
+  left: 50%;
+  top: 4px;
+  transform: translate3d(-50%, 0, 24px);
+  /* positioning each box */ }
+  .comfy-chair-C > *:nth-child(1) {
+    --w: 72.8px;
+    --l: 4px;
+    --h: 6.4px;
+    --bW: 4px;
+    --bL1: 2px;
+    --bL2: 0.4px;
+    --sign: -1;
+    --theta: 0.5586rad;
+    --phi1: 0.30288rad;
+    --phi2: 0.06242rad;
+    --hyp: 7.54718px;
+    --hyp1: 6.70522px;
+    --hyp2: 6.41249px;
+    --w1: 64.8px;
+    --l1: 1.6px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0) translate3d(0, 68.88px, 2px) rotateX(-90deg) rotate(180deg); }
+    .comfy-chair-C > *:nth-child(1) .w-s2, .comfy-chair-C > *:nth-child(1) .w-s4 {
+      border-top: none;
+      --width: calc(var(--bL2) + var(--l1) + var(--bL1));
+      --offset: 0px; }
+  .comfy-chair-C > *:nth-child(2) {
+    --w: 72.8px;
+    --l: 59.68px;
+    --h: 4px;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 11.2px); }
+  .comfy-chair-C > *:nth-child(3) {
+    --w: 72.8px;
+    --l: 11.2px;
+    --h: 4px;
+    --bW: 16px;
+    --hyp: 19.53049px;
+    --theta: 0.96007rad;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0); }
+  .comfy-chair-C .t-face {
+    overflow: hidden !important; }
+.comfy-chair-A1, .comfy-chair-A2 {
+  /* shared box dimensions */
+  /* shared dimensions passed to each box through CSS inheritance */
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 76px;
+  height: 4px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate3d(-50%, -50%, 24px) rotate(-90deg) translate(-42px, 2px);
+  /* positioning each box */ }
+  .comfy-chair-A1 > *:nth-child(1), .comfy-chair-A2 > *:nth-child(1) {
+    --w: 20.43221px;
+    --l: 3.75877px;
+    --h: 76px;
+    --bW: 1.36808px;
+    --hyp: 4px;
+    --theta: 20deg;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform-origin: 50% 100% 38px;
+    transform: translate3d(-50%, -50%, -38px) rotateY(-90deg) rotate(-20deg) translate(10.21611px, 0); }
+  .comfy-chair-A1 > *:nth-child(2), .comfy-chair-A2 > *:nth-child(2) {
+    --w: 76px;
+    --l: 16px;
+    --h: 4px;
+    --bW: 16px;
+    --hyp: 22.62742px;
+    --theta: 0.7854rad;
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    transform-origin: 50% 100% 2px;
+    transform: translate3d(-50%, -100%, -2px) rotateX(-70deg) translate(0, -20.43221px) rotateX(20deg) translateZ(-2px); }
+  .comfy-chair-A1 .t-face, .comfy-chair-A2 .t-face {
+    overflow: hidden !important; }
+.comfy-chair-A2 {
+  left: 0;
+  top: 0;
+  transform: translate3d(-50%, -50%, 24px) rotate(90deg) translate(42px, -78px) scale(-1, 1); }
+.comfy-chair-B2 {
+  /* shared box dimensions */
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 80px;
+  height: 4px;
+  position: absolute;
+  left: 50%;
+  top: 0;
+  transform: translate3d(-50%, 0, 24px) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -0.57735, 1, 0, 0, 0, 0, 1);
+  /* positioning each box */ }
+  .comfy-chair-B2 > *:nth-child(1) {
+    --w: 93.97646px;
+    --l: 19.2px;
+    --h: 4px;
+    --bW: 6.98823px;
+    --hyp: 20.43221px;
+    --theta: 20deg;
+    position: absolute;
+    transform-origin: 50% 50% 2px;
+    transform: translate3d(-50%, -50%, -2px) rotateX(-90deg) rotate(180deg) translate3d(-40px, 9.6px, 2px); }
+  .comfy-chair-B2 > *:nth-child(2) {
+    --w: 93.97646px;
+    --l: 44.8px;
+    --h: 4px;
+    --bW: 6.98823px;
+    --hyp: 45.34176px;
+    --theta: 0.15474rad;
+    position: absolute;
+    transform-origin: 50% 50% 2px;
+    transform: translate3d(-50%, -50%, -2px) rotateX(-90deg) translate3d(40px, -41.6px, 2px); }
+  .comfy-chair-B2 .t-face {
+    overflow: hidden !important; }
+.comfy-chair-J1, .comfy-chair-J2 {
+  --w: 4px;
+  --l: 0px;
+  --h: 19.2px;
+  --bW: 0px;
+  --bL1: 0px;
+  --bL2: 11.08513px;
+  --sign: 1;
+  --theta: 0rad;
+  --phi1: 0rad;
+  --phi2: -30deg;
+  --hyp: 19.2px;
+  --hyp1: 19.2px;
+  --hyp2: 22.17025px;
+  --w1: 4px;
+  --l1: 11.08513px;
+  transform-style: preserve-3d;
+  width: 4px;
+  height: 0px;
+  position: absolute;
+  transform: translate3d(0, 4px, 24px) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, -0.36397, 0, 1, 0, 0, 0, 0, 1); }
+  .comfy-chair-J1 .w-face, .comfy-chair-J2 .w-face {
+    overflow: hidden !important; }
+  .comfy-chair-J1 .w-s2, .comfy-chair-J1 .w-s4, .comfy-chair-J2 .w-s2, .comfy-chair-J2 .w-s4 {
+    border-bottom: none;
+    --width: calc(var(--bL2) + var(--l) + var(--bL1));
+    --offset: var(--bL2); }
+.comfy-chair-J2 {
+  right: 0;
+  transform: translate3d(0, 4px, 24px) scaleX(-1) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, -0.36397, 0, 1, 0, 0, 0, 0, 1); }
+.comfy-chair-F1, .comfy-chair-F2 {
+  --w: 19.2px;
+  --l: 0px;
+  --h: 11.2px;
+  --bW: 0px;
+  --bL1: 0px;
+  --bL2: 16px;
+  --sign: 1;
+  --theta: 0rad;
+  --phi1: 0rad;
+  --phi2: -0.96007rad;
+  --hyp: 11.2px;
+  --hyp1: 11.2px;
+  --hyp2: 19.53049px;
+  --w1: 19.2px;
+  --l1: 16px;
+  transform-style: preserve-3d;
+  width: 19.2px;
+  height: 0px;
+  position: absolute;
+  transform-origin: 0% 0%;
+  transform: translate3d(4px, 4px, 24px) rotate(90deg) rotateY(-90deg) translateZ(-11.2px) matrix3d(1, 0.36397, 0.57735, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+  .comfy-chair-F1 .w-face, .comfy-chair-F2 .w-face {
+    overflow: hidden; }
+  .comfy-chair-F1 .w-s2, .comfy-chair-F1 .w-s4, .comfy-chair-F2 .w-s2, .comfy-chair-F2 .w-s4 {
+    border-bottom: none;
+    --width: calc(var(--bL2) + var(--l) + var(--bL1));
+    --offset: var(--bL2); }
+.comfy-chair-F2 {
+  right: 0;
+  transform-origin: 100% 0%;
+  transform: translate3d(-4px, 4px, 24px) rotate(-90deg) rotateY(90deg) translateZ(-11.2px) matrix3d(1, -0.36397, -0.57735, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1); }
+.comfy-chair-U1, .comfy-chair-U2 {
+  --w: 63.35677px;
+  --l: 20px;
+  --h: 31.67838px;
+  --bW: 31.67838px;
+  --bL1: 0px;
+  --bL2: 16px;
+  --sign: -1;
+  --theta: 0.7854rad;
+  --phi1: 0rad;
+  --phi2: 0.4677rad;
+  --hyp: 44.8px;
+  --hyp1: 31.67838px;
+  --hyp2: 35.48972px;
+  --w1: 0px;
+  --l1: 4px;
+  transform-style: preserve-3d;
+  width: 63.35677px;
+  height: 20px;
+  position: absolute;
+  transform-origin: 0% 100%;
+  transform: translate3d(-6.56679px, -16px, 43.2px) rotate(90deg) rotateY(-90deg) translate3d(0, 0, 11.08513px) scale3d(1, 1, -1) rotateY(-45deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, -0.75256, 0, 0.24744, 0, 0, 0, 0, 1) rotateY(45deg) matrix3d(1, -0.15599, -6.37479, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1) rotateY(-45deg); }
+  .comfy-chair-U1 .w-face, .comfy-chair-U2 .w-face {
+    overflow: hidden; }
+  .comfy-chair-U1 .w-s2, .comfy-chair-U1 .w-s4, .comfy-chair-U2 .w-s2, .comfy-chair-U2 .w-s4 {
+    border-top: none;
+    --width: calc(var(--bL2) + var(--l1) + var(--bL1));
+    --offset: 0px; }
+.comfy-chair-U2 {
+  transform: translate(80px, 0) scaleX(-1) translate3d(-6.56679px, -16px, 43.2px) rotate(90deg) rotateY(-90deg) translate3d(0, 0, 11.08513px) scale3d(1, 1, -1) rotateY(-45deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, -0.75256, 0, 0.24744, 0, 0, 0, 0, 1) rotateY(45deg) matrix3d(1, -0.15599, -6.37479, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1) rotateY(-45deg); }
+
+/* Fork-Legged Table */
+.fork-leg {
+  --RES: 80px;
+  --SCALE: 3;
+  --W: 80px;
+  --L: 80px;
+  --H: 40px;
+  --T_bW: 2px;
+  --T_t: 2px;
+  --B_t: 4px;
+  --B_d: 60px;
+  --L_d: 4px; }
+.fork-leg-B {
+  /* shared box dimensions */
+  /* dimensions passed to each box through CSS inheritance */
+  --w: 2.68px;
+  --l: 2.68px;
+  --h: 4px;
+  --bW: 0.67px;
+  --bL1: 0.67px;
+  --bL2: 0.67px;
+  --sign: -1;
+  --theta: 0.16596rad;
+  --phi1: 0.16596rad;
+  --phi2: 0.16596rad;
+  --hyp: 4.05572px;
+  --hyp1: 4.05572px;
+  --hyp2: 4.05572px;
+  --w1: 1.34px;
+  --l1: 1.34px;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 60px;
+  height: 60px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  /* positioning each box */
+  /* implement border-type() mixin */
+  /* for debugging mode: clip text overflow */ }
+  .fork-leg-B > *:nth-child(1) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(0deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -6.9975, 1, 0, 0, 0, 0, 1) translate(0, -1.34px); }
+  .fork-leg-B > *:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(90deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -6.9975, 1, 0, 0, 0, 0, 1) translate(0, -1.34px); }
+  .fork-leg-B > *:nth-child(3) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(180deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -6.9975, 1, 0, 0, 0, 0, 1) translate(0, -1.34px); }
+  .fork-leg-B > *:nth-child(4) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, -50%, 4px) rotateX(180deg) rotate(270deg) matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, -6.9975, 1, 0, 0, 0, 0, 1) translate(0, -1.34px); }
+  .fork-leg-B .w-s2, .fork-leg-B .w-s4 {
+    border-top: none;
+    --width: calc(var(--bL2) + var(--l1) + var(--bL1));
+    --offset: 0px; }
+  .fork-leg-B .w-face {
+    overflow: hidden !important; }
+.fork-leg-L {
+  /* shared box dimensions */
+  /* dimensions passed to each box through CSS inheritance */
+  --w: 4px;
+  --l: 1.73205px;
+  --h: 34px;
+  --bW: 1px;
+  --hyp: 2px;
+  --theta: 0.5236rad;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate3d(-50%, -50%, 4px);
+  /* positioning each box */ }
+  .fork-leg-L > *:nth-child(1) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0) rotate(180deg); }
+  .fork-leg-L > *:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0); }
+  .fork-leg-L .t-face {
+    overflow: hidden !important; }
+.fork-leg-T {
+  /* shared box dimensions */
+  /* shared dimensions passed to each box through CSS inheritance */
+  --h: 2px;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 80px;
+  height: 80px;
+  position: relative;
+  transform: translateZ(38px);
+  /* positioning each box */ }
+  .fork-leg-T > *:nth-child(1) {
+    --w: 80px;
+    --l: 2px;
+    --bW: 2px;
+    --hyp: 2.82843px;
+    --theta: 0.7854rad;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%) rotate(-90deg) translate(-40px, 1px); }
+  .fork-leg-T > *:nth-child(2) {
+    --w: 76px;
+    --l: 80px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); }
+  .fork-leg-T > *:nth-child(3) {
+    --w: 80px;
+    --l: 2px;
+    --bW: 2px;
+    --hyp: 2.82843px;
+    --theta: 0.7854rad;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%) rotate(90deg) translate(40px, -79px); }
+  .fork-leg-T .t-face {
+    overflow: hidden !important; }
+
+/* Round Rectangle Table */
+.r-rectangle {
+  --RES: 80px;
+  --SCALE: 3;
+  --W: 80px;
+  --L: 40px;
+  --H: 40px;
+  --T_bW: 4px;
+  --T_t: 4px;
+  --B_t: 4px;
+  --B_d: 40px;
+  --L_d: 4px; }
+.r-rectangle-B {
+  /* shared box dimensions */
+  /* dimensions passed to each box through CSS inheritance */
+  --w: 20px;
+  --l: 0px;
+  --h: 15.58846px;
+  --bW: 9px;
+  --bL1: 4px;
+  --bL2: 0px;
+  --sign: 1;
+  --theta: 0.5236rad;
+  --phi1: -0.25118rad;
+  --phi2: 0rad;
+  --hyp: 18px;
+  --hyp1: 16.09348px;
+  --hyp2: 15.58846px;
+  --w1: 2px;
+  --l1: 4px;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.5);
+  /* positioning each box */
+  /* implement border-type() mixin */ }
+  .r-rectangle-B > *:nth-child(1) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(0deg) rotateX(90deg) translateZ(-17.32051px); }
+  .r-rectangle-B > *:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(60deg) rotateX(90deg) translateZ(-17.32051px); }
+  .r-rectangle-B > *:nth-child(3) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(120deg) rotateX(90deg) translateZ(-17.32051px); }
+  .r-rectangle-B > *:nth-child(4) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(180deg) rotateX(90deg) translateZ(-17.32051px); }
+  .r-rectangle-B > *:nth-child(5) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(240deg) rotateX(90deg) translateZ(-17.32051px); }
+  .r-rectangle-B > *:nth-child(6) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%) rotate(300deg) rotateX(90deg) translateZ(-17.32051px); }
+  .r-rectangle-B .w-s2, .r-rectangle-B .w-s4 {
+    border-bottom: none;
+    --width: calc(var(--bL2) + var(--l) + var(--bL1));
+    --offset: var(--bL2); }
+  .r-rectangle-B .w-s2, .r-rectangle-B .w-s4 {
+    overflow: hidden; }
+.r-rectangle-L {
+  /* shared box dimensions */
+  /* dimensions passed to each box through CSS inheritance */
+  --w: 4px;
+  --l: 1.73205px;
+  --h: 36px;
+  --bW: 1px;
+  --hyp: 2px;
+  --theta: 0.5236rad;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  /* positioning each box */ }
+  .r-rectangle-L > *:nth-child(1) {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, 0) rotate(180deg); }
+  .r-rectangle-L > *:nth-child(2) {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, 0); }
+  .r-rectangle-L .t-face {
+    overflow: hidden !important; }
+.r-rectangle-T {
+  /* shared box dimensions */
+  /* shared dimensions passed to each box through CSS inheritance */
+  --h: 4px;
+  /* global positioning */
+  transform-style: preserve-3d;
+  width: 80px;
+  height: 40px;
+  position: relative;
+  transform: translateZ(36px);
+  /* positioning each box */ }
+  .r-rectangle-T > *:nth-child(1) {
+    --w: 40px;
+    --l: 4px;
+    --bW: 4px;
+    --hyp: 5.65685px;
+    --theta: 0.7854rad;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%) rotate(-90deg) translate(-20px, 2px); }
+  .r-rectangle-T > *:nth-child(2) {
+    --w: 72px;
+    --l: 40px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); }
+  .r-rectangle-T > *:nth-child(3) {
+    --w: 40px;
+    --l: 4px;
+    --bW: 4px;
+    --hyp: 5.65685px;
+    --theta: 0.7854rad;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, -50%) rotate(90deg) translate(20px, -78px); }
+  .r-rectangle-T .t-face {
+    overflow: hidden !important; }
+
+/* Glass Divider */
+.g-divider {
+  --RES: 240px;
+  --SCALE: 1;
+  --W: calc(1.0*var(--RES));
+  --L: calc(0.1*var(--RES));
+  --H: calc(0.7*var(--RES));
+  --bH: calc(1.5*var(--L));
+  --P: calc(0.05*var(--RES));
+  --T: calc(0.005*var(--RES)); }
+.g-divider-B {
+  --w: var(--W);
+  --l: var(--L);
+  --h: var(--bH);
+  --raise: calc(0.5*var(--h)); }
+.g-divider-G {
+  --w: calc(var(--W) - calc(2*var(--P)));
+  --l: var(--T);
+  --h: calc(var(--H) - var(--bH));
+  --raise: calc(0.5*var(--h));
+  transform: translate3d(-50%, -50%, var(--bH)) translate(calc(0.5*var(--W)), calc(0.5*var(--L))); }
+
+/* Pillar Table */
+.pillartable {
+  --RES: 240px;
+  --SCALE: 1;
+  --W: calc(1.0*var(--RES));
+  --L: calc(1.0*var(--RES));
+  --H: calc(0.35*var(--RES));
+  --T: calc(0.03*var(--RES));
+  --G: calc(0.4*var(--RES));
+  --pH: calc(1.5*var(--RES));
+  /* Shared face dimensions */
+  --w: var(--W);
+  --l: calc(0.5*calc(var(--L) - var(--G)));
+  --h: var(--T);
+  --bW: calc(0.5*calc(var(--w) - var(--G)));
+  /* Manually calculated */
+  --hyp: calc(0.70711*calc(var(--W) - var(--G)));
+  /* hyp = sqrt((L-G)^2/4+(W-G)^2/4) */
+  /* or hyp = sqrt(2) * (W-G)/2 assuming symmetrical W-L */
+  --theta: 45deg;
+  /* theta = atan((W-G)/2 / ((L-G)/2)) */ }
+.pillartable-F {
+  transform: translate3d(-50%, -50%, calc(var(--H) - var(--T))) translate(calc(0.5*var(--W)), calc(var(--L) - calc(0.5*var(--l)))); }
+.pillartable-L {
+  transform: translate3d(-50%, -50%, calc(var(--H) - var(--T))) rotate(90deg) translate(calc(0.5*var(--L)), calc(-0.5*var(--l))); }
+.pillartable-B {
+  transform: translate3d(-50%, -50%, calc(var(--H) - var(--T))) rotate(180deg) translate(calc(-0.5*var(--W)), calc(-0.5*var(--l))); }
+.pillartable-R {
+  transform: translate3d(-50%, -50%, calc(var(--H) - var(--T))) rotate(-90deg) translate(calc(-0.5*var(--L)), calc(var(--W) + calc(-0.5*var(--l)))); }
+.pillartable-P {
+  --w: var(--G);
+  --l: var(--G);
+  --h: var(--pH);
+  transform: translate(-50%, -50%) translate(calc(0.5*var(--W)), calc((0.5*var(--L)))); }
+
+/* High Table */
+.hightable {
+  --RES: 240px;
+  --SCALE: 1;
+  --W: calc(1.0*var(--RES));
+  --L: calc(0.5*var(--RES));
+  --H: calc(0.625*var(--RES));
+  --T: calc(0.06*var(--RES));
+  --U: calc(0.15625*var(--RES)); }
+.hightable-R {
+  --w: var(--T);
+  --l: var(--L);
+  --h: var(--H);
+  transform: translate(calc(var(--W) - var(--T)), 0); }
+.hightable-L {
+  --w: var(--T);
+  --l: var(--L);
+  --h: var(--H);
+  transform: scale(-1, 1); }
+.hightable-T {
+  --w: calc(var(--W) - calc(2*var(--T)));
+  --l: var(--L);
+  --h: var(--T);
+  transform: translate3d(var(--T), 0, calc(var(--H) - var(--T))); }
+.hightable-U {
+  --w: calc(var(--W) - calc(2*var(--T)));
+  --l: var(--T);
+  --h: var(--U);
+  transform: translate(0, -50%) translate3d(var(--T), calc(0.5*var(--L)), calc(var(--H) - calc(var(--U) + var(--T)))); }
+
+/* Box */
+/* args: w,l,h */
+.box {
+  --raise: calc(0.5*var(--h));
+  width: var(--w);
+  height: var(--l);
+  transform-style: preserve-3d;
+  position: absolute;
+  left: 0;
+  top: 0;
+  user-select: none; }
+
+.face {
+  position: absolute;
+  transform-style: flat;
+  overflow: hidden;
+  color: white;
+  text-align: center; }
+
+.s1 {
+  width: var(--w);
+  height: var(--l);
+  transform: translateZ(var(--h));
+  background-color: rgba(10, 110, 205, 0.5);
+  font: calc(0.6*var(--l))/var(--l) sans-serif; }
+
+.s2 {
+  width: var(--l);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) rotateY(90deg) translate3d(calc(-0.5*var(--l)), 0, var(--w));
+  background-color: rgba(120, 215, 20, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.s3 {
+  width: var(--w);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) translate3d(calc(0.5*var(--w)), 0, var(--l));
+  background-color: rgba(225, 30, 130, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.s4 {
+  width: var(--l);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) rotateY(-90deg) translate3d(calc(0.5*var(--l)), 0, 0);
+  background-color: rgba(255, 196, 128, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.s5 {
+  width: var(--w);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) rotateY(180deg) translate3d(calc(-0.5*var(--w)), 0, 0);
+  background-color: rgba(50, 245, 150, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.s6 {
+  width: var(--w);
+  height: var(--l);
+  transform: rotateY(180deg);
+  background-color: rgba(255, 160, 60, 0.5);
+  font: calc(0.6*var(--l))/var(--l) sans-serif; }
+
+/* Trapezoid Box */
+/* args: w,l,h,bW,hyp,theta */
+.t-box {
+  --raise: calc(0.5*var(--h));
+  --w1: calc(var(--w) - calc(2*var(--bW)));
+  width: var(--w);
+  height: var(--l);
+  transform-style: preserve-3d;
+  position: absolute;
+  user-select: none; }
+
+.t-face {
+  position: absolute;
+  transform-style: flat;
+  color: white;
+  text-align: center; }
+
+.t-s1 {
+  width: var(--w1);
+  height: 0;
+  border: var(--bW) solid transparent;
+  border-top: none;
+  border-bottom: var(--l) solid rgba(10, 110, 205, 0.5);
+  transform: translateZ(var(--h));
+  font: calc(0.6*var(--l))/var(--l) sans-serif; }
+
+.t-s2 {
+  width: var(--hyp);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) rotateY(90deg) translate3d(calc(-0.5*var(--l)), 0, calc(var(--w) - calc(0.5*var(--bW)))) rotateY(var(--theta));
+  background-color: rgba(120, 215, 20, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.t-s3 {
+  width: var(--w);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) translate3d(calc(0.5*var(--w)), 0, var(--l));
+  background-color: rgba(225, 30, 130, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.t-s4 {
+  width: var(--hyp);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) rotateY(-90deg) translate3d(calc(0.5*var(--l)), 0, calc(-0.5*var(--bW))) rotateY(calc(-1*var(--theta)));
+  background-color: rgba(255, 196, 128, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.t-s5 {
+  width: var(--w1);
+  height: var(--h);
+  transform: translate3d(-50%, -50%, var(--raise)) rotateX(-90deg) rotateY(180deg) translate3d(calc(-0.5*var(--w)), 0, 0);
+  background-color: rgba(50, 245, 150, 0.5);
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.t-s6 {
+  width: var(--w1);
+  height: 0;
+  border: var(--bW) solid transparent;
+  border-top: none;
+  border-bottom: var(--l) solid rgba(255, 160, 60, 0.5);
+  transform: rotateY(180deg);
+  font: calc(0.6*var(--l))/var(--l) sans-serif; }
+
+/* Wedge Box */
+/* args: w,l,h,bW,bL1,bL2,sign,theta,phi1,phi2,hyp,hyp1,hyp2,w1,l1
+   special: must implement the border-type() mixin (defaults to border-bottom). */
+/* [code-folding placeholder] */
+.w-box {
+  --raise: calc(0.5*var(--h));
+  width: var(--w);
+  height: var(--l);
+  transform-style: preserve-3d;
+  position: absolute;
+  left: 0;
+  top: 0;
+  user-select: none; }
+
+.w-face {
+  position: absolute;
+  transform-style: flat;
+  color: white;
+  text-align: center; }
+
+.w-s1 {
+  width: var(--w1);
+  height: var(--l1);
+  transform: translate3d(-50%, 0, var(--h)) translate(calc(0.5*var(--w)), calc(-1*calc(var(--sign)*var(--bL2))));
+  background-color: rgba(50, 245, 150, 0.5);
+  font: calc(0.6*var(--l1))/var(--l1) sans-serif; }
+
+.w-s2 {
+  box-sizing: border-box;
+  width: var(--width);
+  height: var(--hyp);
+  border: var(--hyp) solid rgba(120, 215, 20, 0.5);
+  border-right: var(--bL2) solid transparent;
+  border-left: var(--bL1) solid transparent;
+  transform: translate3d(-50%, -50%, var(--raise)) rotate(-90deg) translate(calc(-50% + var(--offset)), calc(var(--w) - calc(0.5*var(--bW)))) rotateX(calc(-90deg + var(--theta)));
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.w-s3 {
+  width: var(--w1);
+  height: 0;
+  border: var(--hyp1) solid rgba(10, 110, 205, 0.5);
+  border-right: var(--bW) solid transparent;
+  border-left: var(--bW) solid transparent;
+  border-top: none;
+  transform: translate3d(-50%, -50%, var(--raise)) translate(calc(0.5*var(--w)), calc(var(--l) + calc(var(--sign)*calc(0.5*var(--bL1))))) rotateX(calc(-90deg + var(--phi1)));
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.w-s4 {
+  box-sizing: border-box;
+  width: var(--width);
+  height: var(--hyp);
+  border: var(--hyp) solid rgba(255, 196, 128, 0.5);
+  border-right: var(--bL1) solid transparent;
+  border-left: var(--bL2) solid transparent;
+  transform: translate3d(-50%, -50%, var(--raise)) rotate(90deg) translate(calc(50% - var(--offset)), calc(-0.5*var(--bW))) rotateX(calc(-90deg + var(--theta)));
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.w-s5 {
+  width: var(--w1);
+  height: 0;
+  border: var(--hyp2) solid rgba(255, 160, 60, 0.5);
+  border-right: var(--bW) solid transparent;
+  border-left: var(--bW) solid transparent;
+  border-top: none;
+  transform: translate3d(-50%, -50%, var(--raise)) rotate(180deg) translate(calc(-0.5*var(--w)), calc(var(--sign)*calc(0.5*var(--bL2)))) rotateX(calc(-90deg + var(--phi2)));
+  font: calc(0.6*var(--h))/var(--h) sans-serif; }
+
+.w-s6 {
+  width: var(--w);
+  height: var(--l);
+  transform: rotateY(180deg);
+  background-color: rgba(225, 30, 130, 0.5);
+  font: calc(0.6*var(--l))/var(--l) sans-serif; }
+
+/*# sourceMappingURL=furniture-styles.css.map */

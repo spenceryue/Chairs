@@ -1,0 +1,51 @@
+/* Pillar Table */
+.pillartable {
+  & {
+    $RES: 80px;
+    $SCALE: 3;
+    --RES: $RES;
+    --SCALE: $SCALE;
+    --W: calc(1.0*var(--RES));
+    --L: calc(1.0*var(--RES));
+    --H: calc(0.35*var(--RES));
+    --T: calc(0.03*var(--RES));
+    --G: calc(0.4*var(--RES));
+    --pH: calc(1.5*var(--RES));
+
+    /* Shared face dimensions */
+    --w: var(--W);
+    --l: calc(0.5*calc(var(--L) - var(--G)));
+    --h: var(--T);
+    --bW: calc(0.5*calc(var(--w) - var(--G)));
+    
+    /* Manually calculated */
+    --hyp: calc(0.70711*calc(var(--W) - var(--G)));
+    /* hyp = sqrt((L-G)^2/4+(W-G)^2/4) */
+    /* or hyp = sqrt(2) * (W-G)/2 assuming symmetrical W-L */
+    --theta: 45deg;
+    /* theta = atan((W-G)/2 / ((L-G)/2)) */
+  }
+
+  &-F {
+    transform: translate3d(-50%,-50%,calc(var(--H) - var(--T))) translate(calc(0.5*var(--W)),calc(var(--L) - calc(0.5*var(--l))));
+  }
+
+  &-L {
+    transform: translate3d(-50%,-50%,calc(var(--H) - var(--T))) rotate(90deg) translate(calc(0.5*var(--L)),calc(-0.5*var(--l)));
+  }
+
+  &-B {
+    transform: translate3d(-50%,-50%,calc(var(--H) - var(--T))) rotate(180deg) translate(calc(-0.5*var(--W)),calc(-0.5*var(--l)));
+  }
+
+  &-R {
+    transform: translate3d(-50%,-50%,calc(var(--H) - var(--T))) rotate(-90deg) translate(calc(-0.5*var(--L)),calc(var(--W) + calc(-0.5*var(--l))));
+  }
+
+  &-P {
+    --w: var(--G);
+    --l: var(--G);
+    --h: var(--pH);
+    transform: translate(-50%,-50%) translate(calc(0.5*var(--W)),calc((0.5*var(--L))));
+  }
+}

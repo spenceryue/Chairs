@@ -1,0 +1,65 @@
+/* Trapezoid Box */
+/* args: w,l,h,bW,hyp,theta */
+  .t-box {
+    --raise: calc(0.5*var(--h));
+    --w1: calc(var(--w) - calc(2*var(--bW)));
+
+    width:var(--w);
+    height:var(--l);
+    transform-style: preserve-3d;
+    position: absolute;
+    user-select: none;
+  }
+  .t-face {
+    position:absolute;
+    transform-style: flat;
+
+    color:white;
+    text-align:center;
+  }
+  .t-s1 {
+    width: var(--w1);
+    height: 0;
+    border: var(--bW) solid transparent;
+    border-top:none;
+    border-bottom: var(--l) solid rgba(10,110,205,.5);
+    transform: translateZ(var(--h));
+    font: calc(0.6*var(--l))/var(--l) sans-serif;
+  }
+  .t-s2 {
+    width: var(--hyp);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) rotateY(90deg) translate3d(calc(-0.5*var(--l)),0,calc(var(--w) - calc(0.5*var(--bW)))) rotateY(var(--theta));
+    background-color:rgba(120,215,20,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .t-s3 {
+    width: var(--w);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) translate3d(calc(0.5*var(--w)),0,var(--l));
+    background-color:rgba(225,30,130,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .t-s4 {
+    width: var(--hyp);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) rotateY(-90deg) translate3d(calc(0.5*var(--l)),0,calc(-0.5*var(--bW))) rotateY(calc(-1*var(--theta)));
+    background-color:rgba(255,196,128,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .t-s5 {
+    width: var(--w1);
+    height: var(--h);
+    transform: translate3d(-50%,-50%,var(--raise)) rotateX(-90deg) rotateY(180deg) translate3d(calc(-0.5*var(--w)),0,0);
+    background-color:rgba(50,245,150,.5);
+    font: calc(0.6*var(--h))/var(--h) sans-serif;
+  }
+  .t-s6 {
+    width: var(--w1);
+    height: 0;
+    border: var(--bW) solid transparent;
+    border-top:none;
+    border-bottom: var(--l) solid rgba(255,160,60,.5);
+    transform: rotateY(180deg);
+    font: calc(0.6*var(--l))/var(--l) sans-serif;
+  }

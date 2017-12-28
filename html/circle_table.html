@@ -1,0 +1,334 @@
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  <figure class="container">
+    <figcaption class="caption">Circle Table (<a href="../references/10.jpg">see reference</a>)</figcaption>
+  <label for="ct_tilter">
+    <div class="label_text">Adjust slider to <em>tilt</em> the table</div>
+    <svg id="3" viewbox="0 0 100 100" preserveAspectRatio="xMinYMin meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <!--      <use xlink:href="#ct" x="-40" y="-40"/>
+  <use xlink:href="#ct" x="0" y="-40"/>
+  <use xlink:href="#ct" x="40" y="-40"/>
+  <use xlink:href="#ct" x="-40" y="0"/> -->
+  <!--      <use xlink:href="#ct"/> -->
+
+
+  <g fill="none" stroke="rgba(0,0,0,.2)" stroke-width=".1" stroke-dasharray="1,1" style="font-size: 2.5; font-family: calibri;">
+    <rect x="30" y="25" width="40" height="50"/>
+    <line x1="50" y1="25" x2="50" y2="75"/>
+    <line x1="30" y1="50" x2="70" y2="50"/>
+    <!--        <text x="50" y="80" text-anchor="middle" fill="rgba(0,0,255,.75)">Base of table is fixed at the midpoint of the SVG (50%,50%)</text> -->
+    <!--        <text x="50" y="83" text-anchor="middle" fill="rgba(255,0,0,.75)">Performance note: make sure SVGs don't overlap</text> -->
+    <!--        <text x="50" y="86" text-anchor="middle" fill="rgba(255,0,0,.75)">or the animation stalls terribly</text> -->
+    <!--        <text x="50" y="18" text-anchor="middle" fill="rgba(0,120,120,.75)">Aspect Ratio is locked at 1:1.</text> -->
+    <!--        <text x="50" y="21" text-anchor="middle" fill="rgba(0,120,120,.75)">The SVG will expand until its shortest dimension fits the frame.</text> -->
+    <text x="30" y="50.75" text-anchor="middle" fill="rgba(0,0,0,.5)">50%</text>
+    <text x="50" y="75.75" text-anchor="middle" fill="rgba(0,0,0,.5)">50%</text>
+  </g>
+
+  <!--      <use xlink:href="#ct" x="40" y="0"/>
+  <use xlink:href="#ct" x="-40" y="40"/>
+  <use xlink:href="#ct" x="0" y="40"/>
+  <use xlink:href="#ct" x="40" y="40"/> -->
+
+  <svg id="ct" fill="rgba(250,230,177,1)" viewbox="0 0 100 100" preserveAspectRatio="xMidYMid meet" x="30" y="25" width="40" height="50">
+    <defs>
+      <!-- shadow filter -->
+      <filter id="f_shadow" x="-50%" y="-50%" width="200%" height="200%" primitiveUnits="objectBoundingBox">
+        <!-- removing this feOffset improved performance a little. -->
+        <!--            <feOffset result="offOut" in="SourceGraphic" dx="0" dy=".1"/> -->
+        <feColorMatrix
+        result="darken"
+        in="offOut"
+        type="matrix"
+        values="0.4 0 0 0 0
+        0 0.4 0 0 0
+        0 0 0.4 0 0
+        0 0 0 1 0" />
+        <!--            <feGaussianBlur result="blurOut" in="darken" stdDeviation=".05"/> -->
+      </filter>
+      <!--  darken filter -->
+      <filter id="f_darken" x="0" y="0" width="100%" height="100%">
+        <feColorMatrix
+        in="SourceGraphic"
+        type="matrix"
+        values="0.02 0 0 0 0
+        0 0.02 0 0 0
+        0 0 0.02 0 0
+        0 0 0 1 0" />
+      </filter>
+      <!--  bottom gradient  -->
+      <radialGradient id="radial" cx="50%" cy="50%" r="50%" fx="0%" fy="50%" gradientTransform="translate(.5,0)">
+        <stop offset="0%" stop-color="rgba(255,255,255,.1)"/>
+        <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+      </radialGradient>
+      <!-- main ellipse -->
+      <ellipse id="ellipse" cx="0" cy="0" rx="50%" ry="21.65%"/>
+      <!--  glare  -->
+      <symbol id="glare" fill="rgba(255,255,255,.5)" viewbox="0 0 28 32" preserveAspectRatio="none">
+        <rect x="-1" y="-10" width="2" height="20" transform="translate(16,10) rotate(10) skewX(-30)"/>
+        <rect x="-.25" y="-10" width=".5" height="20" transform="translate(10,15) rotate(10) skewX(-30)"/>
+        <rect x="-2" y="-10" width="4" height="30" fill="rgba(255,255,255,.2)" transform="translate(18,13) rotate(10) skewX(-30)"/>
+      </symbol>
+      <!-- clip for glare -->
+      <clipPath id="glare_clip">
+        <use id="glare_clip_def" x="50" y="6.7" xlink:href="#ellipse" fill="white"/>
+      </clipPath>
+    </defs>
+    <!--  shadow   -->
+    <!--        <use xlink:href="#ellipse" transform="translate(50,50) scale(.6,.6)" filter="url(#f_shadow)"/> -->
+    <use xlink:href="#ellipse" transform="translate(50,50) scale(.7,.7)" fill="rgba(38,34,22,.1)"/>
+    <!--  bottom   -->
+    <g transform="translate(50,50) scale(.5,.5)" >
+      <!--          <use xlink:href="#ellipse" filter="url(#f_darken)"/> -->
+      <use xlink:href="#ellipse" fill="rgb(38,34,22)"/>
+      <use xlink:href="#ellipse" fill="url(#radial)"/>
+    </g>
+    <!--  leg  -->
+    <!--        <rect id="leg" width="15" height="43.3" rx="6" x="50" y="6.7" transform="translate(-7.5,0)" filter="url(#f_darken)"/> -->
+    <rect id="leg" width="15" height="43.3" rx="6" x="50" y="6.7" transform="translate(-7.5,0)" fill="rgb(38,34,22)"/>
+    <!--  edge   -->
+    <use id="edge" xlink:href="#ellipse" x="50" y="6.7" transform="scale(1,1.02) translate(0,0.707)" fill="rgba(0,0,0,1)"/>
+    <!--  top  -->
+    <use id="top" xlink:href="#ellipse" x="50" y="6.7"/>
+    <!-- glare -->
+    <g clip-path="url(#glare_clip)">
+      <!-- "contain and clip" trick-->
+      <use id="glare_instance" xlink:href="#glare" width="100" height="50" y="-25"/>
+    </g>
+  </svg>
+  </svg>
+  </label>
+
+
+  <div class="tilt_container">
+    <input id="ct_tilter" class="tilter" type="range" min=".01" step=".01" max=".99" value=".5">
+    <output for="ct_tilter" id="ct_current_tilt">45</output>
+  </div>
+  </figure>
+
+  <script type='text/javascript'>
+    // const namespace = "http://www.w3.org/2000/svg";
+
+    // todo: investigate SMIL animate and animateTransform, particularly how to fire them with js.
+    // is setting the transform.animValue the same as using an animateTransform? (cause that would be so cool)
+    //https://web.archive.org/web/20140228202850/http://dev.opera.com/articles/view/advanced-svg-animation-techniques
+    // http://stackoverflow.com/questions/8455773/svg-trigger-animation-with-event
+    // https://developer.mozilla.org/en-US/docs/Web/SVG/SVG_animation_with_SMIL
+
+
+    // Open Tabs:
+    // http://stackoverflow.com/questions/2152161/working-with-svg-polygon-elements
+    // http://stackoverflow.com/a/6817703/3624264
+    // http://svgpocketguide.com/book/
+    // https://www.google.com/maps/uv?hl=en&pb=!1s0x8644b59d243cb369%3A0x9036118404cdcc50!2m19!2m2!1i80!2i80!3m1!2i20!16m13!1b1!2m2!1m1!1e1!2m2!1m1!1e3!2m2!1m1!1e5!2m2!1m1!1e4!3m1!7e115!4shttp%3A%2F%2Futexas.ucampus.co%2F7927518%2Fflawn-academic-center!5sflawn%20academic%20center%20-%20Google%20Search&imagekey=!1e1!2shttps%3A%2F%2Fs3.amazonaws.com%2FUCampus%2FProd%2FBusinessLead%2FBusinessLead-d1188c3a-5ade-4b6d-80c4-9bba01457af5-FAC_Lead_2.jpg&sa=X&ved=0ahUKEwjspNnqsNzSAhVIImMKHXF6BIoQoioIbDAK
+
+    // Read me
+    // https://www.youtube.com/watch?v=jCKZDTtUA2A
+    // http://www.crmarsh.com/svg-performance/
+    // (eventually) https://developers.google.com/web/fundamentals/architecture/app-shell
+
+    function clamp(x, a, b) {
+      return Math.min(Math.max(x, a), b);
+    }
+
+    function CircleTableFacade() {
+      /*
+        This class stores the components and formula to update the tilt angles of all circle tables on the page given an input value ranging from (0-1].
+        This class serves as a facade so that event handlers can tilt the table without directly accessing the individual components of the svg definition. (However, direct access is still possible since elements of the DOM are accessible.)
+        In a way, this class also acts as an observer which "notifies" all circle table instances. But that 1-to-many relationship isn't a result of this object's design, but rather of the way the circle table SVG definition was written.
+        There is also meant to be only one of these (singleton) per SVG furniture type, but this is not enforced.
+      */
+
+      const source = document.getElementById("ct"),
+            // Components
+            ellipse = source.getElementById("ellipse"),
+            glare_clip_def = source.getElementById("glare_clip_def"),
+            leg = source.getElementById("leg"),
+            edge = source.getElementById("edge"),
+            top = source.getElementById("top"),
+            glare_instance = source.getElementById("glare_instance");
+
+      /* THIS FUNCTION NEEDS WORK. PERFORMANCE IS SLOW.
+        Todo: investigate the use of SMIL animations triggered by js.
+        https://developer.mozilla.org/en-US/docs/Web/SVG/SVG_animation_with_SMIL
+        */
+      this.updateTilt = function(x) {
+        // Precondition: 0<x<1
+        if (x<=0 || x>=1 || isNaN(x)) {
+          console.error("invalid x:" + x);
+          return;
+        }
+
+        var a = clamp(x*Math.PI/2,.01*Math.PI/2,.97*Math.PI/2),
+            c = 50*Math.cos(a),
+            s = 50*Math.sin(a),
+            v = 0.02*Math.tan(a),
+            o = 0.02*s;
+        ellipse.setAttributeNS(null, 'ry', c);
+        glare_clip_def.setAttributeNS(null, 'y', 50-s);
+        leg.setAttributeNS(null, 'height', s);
+        leg.setAttributeNS(null, 'y', 50-s);
+        leg.setAttributeNS(null, 'rx', 7.5*(c/50)); // remove if need performance boost
+        edge.setAttributeNS(null, 'y', 50-s);
+        edge.transform.baseVal.getItem(0).setScale(1,1+v);
+        edge.transform.baseVal.getItem(1).setTranslate(0,o);
+        top.setAttributeNS(null, 'y', 50-s);
+        glare_instance.setAttributeNS(null, 'height', 2*c);
+        glare_instance.setAttributeNS(null, 'y', 50-2*s);
+      }
+    }
+
+    // Register input event handler with SVG target
+    function registerTiltHandler(input, display, handler) {
+      var x, scheduledAnimationFrame,
+          min = parseFloat(input.min),
+          range = parseFloat(input.max) - parseFloat(input.min),
+          in_width = input.clientWidth,
+          win_width = document.body.clientWidth,
+
+          getSliderPosition = function(pageX) {
+            //performance note: avoided referenceing input.clientWidth
+            return clamp(
+              (pageX-win_width/2)/in_width + 0.5,
+              .001, .999);
+          },
+
+          animate = function() {
+              var v = min + x*range;
+              input.value = v;
+              display.value = (90*v).toFixed(0);
+              // console.log("\t\tinput value: "+input.value+"\t\tx: "+(input.value));
+              handler(x);
+              scheduledAnimationFrame = false;
+            },
+
+          prepAnimate = function(e) {
+            if (!scheduledAnimationFrame) {
+              scheduledAnimationFrame = true;
+              // console.log("e.type: "+e.type);
+              if (e.type == "click" || e.type == "mousedown" || e.type == "mousemove") {
+                // console.log("e.clientX: "+e.clientX);
+                x = getSliderPosition(e.clientX);
+              } else {
+                x = getSliderPosition(e.changedTouches[0].pageX);
+              }
+              // console.log("x: "+x);
+              requestAnimationFrame(animate);
+            }
+          },
+
+          start = function(e) {
+            e.preventDefault();
+            input.focus();
+            prepAnimate(e);
+          },
+
+          move = function(e) {
+            e.preventDefault();
+            prepAnimate(e);
+          };
+
+      input.addEventListener("touchstart",start);
+      input.addEventListener("touchmove",move);
+      input.addEventListener("click",start);
+      input.addEventListener("mousedown",
+                             function() {
+        input.addEventListener("mousemove",move);
+      });
+      input.addEventListener("mouseup",
+                             function() {
+        input.removeEventListener("mousemove",move);
+      });
+      input.addEventListener("resize", function(i){return function(){in_width=i.clientWidth;};}(input));
+      window.addEventListener("resize", function(i){return function(){in_width=i.clientWidth;win_width=window.clientWidth;};}(input));
+    }
+
+    // "Prewalk" range of motion
+    // No noticeable performance difference?..
+    // var walked = 0;
+    // function registerPrewalker(handler) {
+    //  document.addEventListener("readystatechange",
+    //      function preWalk () {
+    //        if (document.readyState === "complete" && !walked) {
+    //          for(let x=0.01; x<.99; x+=0.01)
+    //            handler(x);
+    //          handler(.5);
+    //          walked = 1;
+    //        }
+    //      });
+    // }
+
+    var input = document.getElementById("ct_tilter"),
+        display = document.getElementById("ct_current_tilt"),
+        handler = (new CircleTableFacade()).updateTilt;
+
+    registerTiltHandler(input,display,handler);
+    // registerPrewalker(handler);
+  </script>
+
+  <style type='text/css'>
+    * {box-sizing: border-box; /*border: 2px solid blue;*/}
+
+    body{background-color:#eee}
+
+    .container {border:1px solid #888; height:90vh; position:relative; margin-top: 3rem;background-color:#ddd; border-radius:12px;}
+    /* https://css-tricks.com/weighing-svg-animation-techniques-benchmarks/*/
+    svg {backface-visibility: hidden; perspective: 1000;will-change: transform;transform:translateZ(0);position:relative; display:table; margin: 0 auto; max-width: 100%; height:100%; left:0; top:0; border: 2px solid aquamarine; border-top:none; border-bottom:none; overflow:visible;background-color:white}
+
+    symbol {overflow:visible}
+
+    .caption {position: absolute; top: -1.3em; width: 100%; text-align: center;font-size:1.3em}
+
+    .tilt_container {
+      position:absolute; bottom: 3rem;width:100%;
+    }
+
+    .tilter{
+      position:absolute;width:30%;left:50%;transform:translateX(-50%);
+    }
+
+    .tilt_container > output {position:absolute;bottom:-2.5rem;width:100%;text-align:center;}
+
+    .tilt_container > output::before {content:"Current Tilt: ";}
+    .tilt_container > output::after {content:"\b0";}
+
+    .label_text {
+      position:absolute; z-index:2; text-align:center; width:100%;background:none;top:1rem;font-size:2em;
+    }
+
+    /* Copied from elsewhere*/
+    input[type=range] {
+        /*removes default webkit styles*/
+        -webkit-appearance: none;
+        /*fix for FF unable to apply focus style bug */
+        border: 1px solid white;
+    }
+    input[type=range]::-webkit-slider-runnable-track {
+        width: 300px;
+        height: 5px;
+        background: #ddd;
+        border: none;
+        border-radius: 3px;
+    }
+    input[type=range]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        border: none;
+        height: 16px;
+        width: 16px;
+        border-radius: 50%;
+        background: black;
+        margin-top: -5px;
+    }
+    input[type=range]:focus {
+        outline: none;
+    }
+    input[type=range]:focus::-webkit-slider-runnable-track {
+        background: #ccc;
+    }
+  </style>
+</body>
+</html>
