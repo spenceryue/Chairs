@@ -1,9 +1,9 @@
 chairs
 ---
 
-Collection of 3D chairs and tables made for [Study Party project](https://github.com/sahilshahh/StudyParty) in EE 461L.
+Collection of 3D models of chairs and tables used in [Study Party](https://github.com/sahilshahh/StudyParty) project in EE 461L (Software Lab).
 
-Made mostly with CSS/Sass.
+Made with CSS, Sass, and SVG.
 
 Click a preview below to visit the live demo.
 
