@@ -89,10 +89,10 @@ Click a preview below to visit the live demo.
 
 ---
 
-#### [Study Party App](http://study-party-ut.https://spenceryue.me/chairs/herokuapp.com/fac)
+#### [Study Party App](http://study-party-ut.herokuapp.com/fac)
 
 <p align='center'>
-  <a href='https://spenceryue.me/chairs/http://study-party-ut.herokuapp.com/fac'>
+  <a href='http://study-party-ut.herokuapp.com/fac'>
     <img src='recordings/actual.gif' height=400>
   </a>
 </p>
